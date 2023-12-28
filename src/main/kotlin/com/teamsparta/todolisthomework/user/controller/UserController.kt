@@ -1,6 +1,7 @@
 package com.teamsparta.todolisthomework.user.controller
 
-import com.teamsparta.todolisthomework.user.dto.UserDto
+import com.teamsparta.todolisthomework.user.dto.UserRequest
+import com.teamsparta.todolisthomework.user.dto.UserResponse
 import com.teamsparta.todolisthomework.user.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -11,21 +12,21 @@ import org.springframework.web.bind.annotation.*
 class UserController(private val userService: UserService) {
 
     @PostMapping
-    fun createUser(@RequestBody userDto: UserDto): ResponseEntity<UserDto> {
-        val creatUserDto = userService.createUser(userDto)
-        return ResponseEntity(creatUserDto, HttpStatus.CREATED)
+    fun createUser(@RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> {
+        val createdUserResponse = userService.createUser(userRequest)
+        return ResponseEntity(createdUserResponse, HttpStatus.CREATED)
     }
 
     @GetMapping("/{id}")
-    fun getUser(@PathVariable id: Long): ResponseEntity<UserDto> {
-        val getUserDto = userService.getUser(id)
-        return ResponseEntity(getUserDto, HttpStatus.OK)
+    fun getUser(@PathVariable id: Long): ResponseEntity<UserResponse> {
+        val userResponse = userService.getUser(id)
+        return ResponseEntity(userResponse, HttpStatus.OK)
     }
 
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: Long, @RequestBody userDto: UserDto): ResponseEntity<UserDto> {
-        val updatedUserDto = userService.updateUser(id, userDto)
-        return ResponseEntity(updatedUserDto, HttpStatus.OK)
+    fun updateUser(@PathVariable id: Long, @RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> {
+        val updatedUserResponse = userService.updateUser(id, userRequest)
+        return ResponseEntity(updatedUserResponse, HttpStatus.OK)
     }
 
     @DeleteMapping("/{id}")

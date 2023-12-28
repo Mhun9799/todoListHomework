@@ -1,9 +1,9 @@
 package com.teamsparta.todolisthomework.taskcard.service
 
-import com.teamsparta.todolisthomework.taskcard.dto.TaskCardDto
+import com.teamsparta.todolisthomework.taskcard.dto.TaskCardRequest
+import com.teamsparta.todolisthomework.taskcard.dto.TaskCardResponse
 import com.teamsparta.todolisthomework.taskcard.model.TaskCard
 import com.teamsparta.todolisthomework.taskcard.repository.TaskCardRepository
-import io.swagger.v3.oas.annotations.parameters.RequestBody
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,62 +14,41 @@ class TaskCardServiceImpl(
 ) : TaskCardService {
 
     @Transactional
-    override fun createTaskCard(@RequestBody taskCardDto: TaskCardDto): TaskCardDto {
+    override fun createTaskCard(taskCardRequest: TaskCardRequest): TaskCardResponse {
         val taskCard = TaskCard(
-            title = taskCardDto.title,
-            content = taskCardDto.content,
-            authorName = taskCardDto.authorName
+            title = taskCardRequest.title,
+            content = taskCardRequest.content,
+            authorName = taskCardRequest.authorName
         )
         val savedTaskCard = taskCardRepository.save(taskCard)
-        return TaskCardDto(
-            savedTaskCard.title,
-            savedTaskCard.content,
-            savedTaskCard.creationDate,
-            savedTaskCard.authorName
-        )
+        return TaskCardResponse.toResponse(savedTaskCard)
     }
 
     @Transactional
-    override fun getTaskCard(id: Long): TaskCardDto {
+    override fun getTaskCard(id: Long): TaskCardResponse {
         val taskCard = taskCardRepository
             .findById(id)
             .orElseThrow { EntityNotFoundException("TaskCard not found") }
-        return TaskCardDto(
-            taskCard.title,
-            taskCard.content,
-            taskCard.creationDate,
-            taskCard.authorName
-        )
+        return TaskCardResponse.toResponse(taskCard)
     }
 
     @Transactional
-    override fun getAllTaskCards(): List<TaskCardDto> {
+    override fun getAllTaskCards(): List<TaskCardResponse> {
         return taskCardRepository
             .findAllByOrderByCreationDateDesc()
             .map { taskCard: TaskCard ->
-                TaskCardDto(
-                    taskCard.title,
-                    taskCard.content,
-                    taskCard.creationDate,
-                    taskCard.authorName
-                )
+                TaskCardResponse.toResponse(taskCard)
             }
     }
 
-
     @Transactional
-    override fun updateTaskCard(@RequestBody id: Long, taskCardDto: TaskCardDto): TaskCardDto {
+    override fun updateTaskCard(id: Long, taskCardRequest: TaskCardRequest): TaskCardResponse {
         val taskCard = taskCardRepository.findById(id).orElseThrow { EntityNotFoundException("TaskCard not found") }
-        taskCard.title = taskCardDto.title
-        taskCard.content = taskCardDto.content
-        taskCard.authorName = taskCardDto.authorName
+        taskCard.title = taskCardRequest.title
+        taskCard.content = taskCardRequest.content
+        taskCard.authorName = taskCardRequest.authorName
         val updatedTaskCard = taskCardRepository.save(taskCard)
-        return TaskCardDto(
-            updatedTaskCard.title,
-            updatedTaskCard.content,
-            updatedTaskCard.creationDate,
-            updatedTaskCard.authorName
-        )
+        return TaskCardResponse.toResponse(updatedTaskCard)
     }
 
     @Transactional
