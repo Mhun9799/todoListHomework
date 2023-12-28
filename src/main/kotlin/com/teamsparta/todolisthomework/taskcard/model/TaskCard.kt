@@ -10,10 +10,10 @@ data class TaskCard(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     var title: String = "",
 
-    @Column(nullable = false)
+    @Column(name = "content", nullable = false)
     var content: String = "",
 
     @Column(name = "creation_date", nullable = false)

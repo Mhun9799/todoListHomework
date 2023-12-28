@@ -16,7 +16,7 @@ class UserServiceImpl(
     override fun createUser(userRequest: UserRequest): UserResponse {
         val user = User(name = userRequest.name)
         val savedUser = userRepository.save(user)
-        return UserResponse(savedUser.id, savedUser.name)
+        return UserResponse.toResponse(savedUser)
     }
 
     @Transactional
@@ -24,7 +24,7 @@ class UserServiceImpl(
         val user = userRepository
             .findById(id)
             .orElseThrow { RuntimeException("User not found") }
-        return UserResponse(user.id, user.name)
+        return UserResponse.toResponse(user)
     }
 
     @Transactional
@@ -34,7 +34,7 @@ class UserServiceImpl(
             .orElseThrow { RuntimeException("User not found") }
         user.name = userRequest.name
         val updatedUser = userRepository.save(user)
-        return UserResponse(updatedUser.id, updatedUser.name)
+        return UserResponse.toResponse(updatedUser)
     }
 
     @Transactional
