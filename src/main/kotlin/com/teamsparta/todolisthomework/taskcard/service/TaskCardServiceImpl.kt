@@ -22,7 +22,6 @@ class TaskCardServiceImpl(
         )
         val savedTaskCard = taskCardRepository.save(taskCard)
         return TaskCardDto(
-            savedTaskCard.id,
             savedTaskCard.title,
             savedTaskCard.content,
             savedTaskCard.creationDate,
@@ -36,7 +35,6 @@ class TaskCardServiceImpl(
             .findById(id)
             .orElseThrow { EntityNotFoundException("TaskCard not found") }
         return TaskCardDto(
-            taskCard.id,
             taskCard.title,
             taskCard.content,
             taskCard.creationDate,
@@ -50,7 +48,6 @@ class TaskCardServiceImpl(
             .findAllByOrderByCreationDateDesc()
             .map { taskCard: TaskCard ->
                 TaskCardDto(
-                    taskCard.id,
                     taskCard.title,
                     taskCard.content,
                     taskCard.creationDate,
@@ -68,7 +65,6 @@ class TaskCardServiceImpl(
         taskCard.authorName = taskCardDto.authorName
         val updatedTaskCard = taskCardRepository.save(taskCard)
         return TaskCardDto(
-            updatedTaskCard.id,
             updatedTaskCard.title,
             updatedTaskCard.content,
             updatedTaskCard.creationDate,
