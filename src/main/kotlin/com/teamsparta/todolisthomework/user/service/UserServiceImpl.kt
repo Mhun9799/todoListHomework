@@ -19,11 +19,19 @@ class UserServiceImpl(
         return UserResponse.toResponse(savedUser)
     }
 
+    // @Transactional
+    // override fun getUser(id: Long): UserResponse {
+    //     val user = userRepository
+    //         .findById(id)
+    //         .orElseThrow { RuntimeException("User not found") }
+    //     return UserResponse.toResponse(user)
+    // }
+
     @Transactional
-    override fun getUser(id: Long): UserResponse {
+    override fun getUser(name: String): UserResponse {
         val user = userRepository
-            .findById(id)
-            .orElseThrow { RuntimeException("User not found") }
+            .findByName(name)
+            ?: throw RuntimeException("User not found")
         return UserResponse.toResponse(user)
     }
 
@@ -40,5 +48,11 @@ class UserServiceImpl(
     @Transactional
     override fun deleteUser(id: Long) {
         userRepository.deleteById(id)
+    }
+
+    @Transactional
+    override fun getAllUsers(): List<UserResponse> {
+        val users = userRepository.findAll()
+        return users.map { UserResponse.toResponse(it) }
     }
 }
