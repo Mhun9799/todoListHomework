@@ -53,7 +53,9 @@ class TaskCardServiceImpl(
 
     @Transactional
     override fun deleteTaskCard(id: Long) {
-        val taskCard = taskCardRepository.findById(id).orElseThrow { EntityNotFoundException("TaskCard not found") }
+        val taskCard = taskCardRepository
+            .findById(id)
+            .orElseThrow { EntityNotFoundException("TaskCard not found") }
         taskCardRepository.delete(taskCard)
     }
 }

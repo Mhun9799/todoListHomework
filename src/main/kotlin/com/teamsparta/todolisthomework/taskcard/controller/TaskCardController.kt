@@ -3,7 +3,6 @@ package com.teamsparta.todolisthomework.taskcard.controller
 import com.teamsparta.todolisthomework.taskcard.dto.TaskCardRequest
 import com.teamsparta.todolisthomework.taskcard.dto.TaskCardResponse
 import com.teamsparta.todolisthomework.taskcard.service.TaskCardService
-import io.swagger.v3.oas.annotations.parameters.RequestBody
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
