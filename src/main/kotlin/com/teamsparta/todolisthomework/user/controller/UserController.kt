@@ -4,6 +4,7 @@ import com.teamsparta.todolisthomework.user.dto.UserCreateRequest
 import com.teamsparta.todolisthomework.user.dto.UserResponse
 import com.teamsparta.todolisthomework.user.dto.UserUpdateRequest
 import com.teamsparta.todolisthomework.user.service.UserService
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -46,5 +47,9 @@ class UserController(private val userService: UserService) {
     fun getAllUsers(): ResponseEntity<List<UserResponse>> {
         val userResponses = userService.getAllUsers()
         return ResponseEntity(userResponses, HttpStatus.OK)
+    }
+    @ExceptionHandler(EntityNotFoundException::class)
+    fun handleEntityNotFoundException(ex: EntityNotFoundException): ResponseEntity<String> {
+        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
     }
 }

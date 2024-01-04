@@ -4,6 +4,7 @@ import com.teamsparta.todolisthomework.taskcard.dto.TaskCardCreateRequest
 import com.teamsparta.todolisthomework.taskcard.dto.TaskCardResponse
 import com.teamsparta.todolisthomework.taskcard.dto.TaskCardUpdateRequest
 import com.teamsparta.todolisthomework.taskcard.service.TaskCardService
+import jakarta.persistence.EntityNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -40,4 +41,10 @@ class TaskCardController(private val taskCardService: TaskCardService) {
         taskCardService.deleteTaskCard(id)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
+
+    @ExceptionHandler(EntityNotFoundException::class)
+    fun handleEntityNotFoundException(ex: EntityNotFoundException): ResponseEntity<String> {
+        return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)
+    }
 }
+

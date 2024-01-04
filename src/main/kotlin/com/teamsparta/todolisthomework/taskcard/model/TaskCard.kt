@@ -1,5 +1,6 @@
 package com.teamsparta.todolisthomework.taskcard.model
 
+import com.teamsparta.todolisthomework.user.model.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -20,6 +21,5 @@ data class TaskCard(
     var creationDate: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "author_name", nullable = false)
-    var authorName: String = ""
+    var authorName: String
 )
-

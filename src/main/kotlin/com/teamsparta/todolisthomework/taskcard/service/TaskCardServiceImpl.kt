@@ -5,21 +5,25 @@ import com.teamsparta.todolisthomework.taskcard.dto.TaskCardResponse
 import com.teamsparta.todolisthomework.taskcard.dto.TaskCardUpdateRequest
 import com.teamsparta.todolisthomework.taskcard.model.TaskCard
 import com.teamsparta.todolisthomework.taskcard.repository.TaskCardRepository
+import com.teamsparta.todolisthomework.user.repository.UserRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TaskCardServiceImpl(
-    private val taskCardRepository: TaskCardRepository
+    private val taskCardRepository: TaskCardRepository,
+    private val userRepository: UserRepository
 ) : TaskCardService {
 
     @Transactional
     override fun createTaskCard(taskCardCreateRequest: TaskCardCreateRequest): TaskCardResponse {
+        val user = userRepository.findByName(taskCardCreateRequest.authorName)
+            ?: throw EntityNotFoundException("User not found")
         val taskCard = TaskCard(
             title = taskCardCreateRequest.title,
             content = taskCardCreateRequest.content,
-            authorName = taskCardCreateRequest.authorName
+            authorName = user.name
         )
         val savedTaskCard = taskCardRepository.save(taskCard)
         return TaskCardResponse.toResponse(savedTaskCard)
@@ -44,10 +48,12 @@ class TaskCardServiceImpl(
 
     @Transactional
     override fun updateTaskCard(id: Long, taskCardUpdateRequest: TaskCardUpdateRequest): TaskCardResponse {
+        val user = userRepository.findByName(taskCardUpdateRequest.authorName)
+            ?: throw EntityNotFoundException("User not found")
         val taskCard = taskCardRepository.findById(id).orElseThrow { EntityNotFoundException("TaskCard not found") }
         taskCard.title = taskCardUpdateRequest.title
         taskCard.content = taskCardUpdateRequest.content
-        taskCard.authorName = taskCardUpdateRequest.authorName
+        taskCard.authorName = user.name
         return TaskCardResponse.toResponse(taskCard)
     }
 
