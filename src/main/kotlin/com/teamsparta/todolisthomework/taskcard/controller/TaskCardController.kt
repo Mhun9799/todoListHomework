@@ -42,6 +42,12 @@ class TaskCardController(private val taskCardService: TaskCardService) {
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
+    @PatchMapping("/{id}/complete")
+    fun completeTaskCard(@PathVariable id: Long): ResponseEntity<TaskCardResponse> {
+        val completedTaskCardResponse = taskCardService.completeTaskCard(id)
+        return ResponseEntity(completedTaskCardResponse, HttpStatus.OK)
+    }
+
     @ExceptionHandler(EntityNotFoundException::class)
     fun handleEntityNotFoundException(ex: EntityNotFoundException): ResponseEntity<String> {
         return ResponseEntity(ex.message, HttpStatus.NOT_FOUND)

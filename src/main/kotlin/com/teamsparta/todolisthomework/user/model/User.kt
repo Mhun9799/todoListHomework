@@ -1,5 +1,6 @@
 package com.teamsparta.todolisthomework.user.model
 
+import com.teamsparta.todolisthomework.comment.model.Comment
 import com.teamsparta.todolisthomework.taskcard.model.TaskCard
 import jakarta.persistence.*
 
@@ -16,6 +17,6 @@ data class User(
     @OneToMany(mappedBy = "authorName")
     var taskCards: List<TaskCard> = mutableListOf(),
 
-   // @OneToMany(mappedBy = "authorName")
-   // var comments: List<Comment> = mutableListOf()
+    @OneToMany(mappedBy = "authorName")
+    var comments: List<Comment> = mutableListOf()
 )

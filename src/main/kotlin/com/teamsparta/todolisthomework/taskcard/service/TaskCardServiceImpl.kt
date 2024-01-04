@@ -69,6 +69,7 @@ class TaskCardServiceImpl(
     override fun completeTaskCard(id: Long): TaskCardResponse {
         val taskCard = taskCardRepository.findById(id).orElseThrow { EntityNotFoundException("TaskCard not found") }
         taskCard.isCompleted = true
-        return TaskCardResponse.toResponse(taskCard)
+        val completedTaskCard = taskCardRepository.save(taskCard)
+        return TaskCardResponse.toResponse(completedTaskCard)
     }
 }
