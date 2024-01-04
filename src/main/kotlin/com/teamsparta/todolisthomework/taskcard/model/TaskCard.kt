@@ -21,5 +21,8 @@ data class TaskCard(
     var creationDate: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "author_name", nullable = false)
-    var authorName: String
+    var authorName: String,
+
+    @Column(name = "is_completed", nullable = false)
+    var isCompleted: Boolean = false
 )

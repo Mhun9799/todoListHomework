@@ -64,4 +64,10 @@ class TaskCardServiceImpl(
             .orElseThrow { EntityNotFoundException("TaskCard not found") }
         taskCardRepository.delete(taskCard)
     }
+    @Transactional
+    override fun completeTaskCard(id: Long): TaskCardResponse {
+        val taskCard = taskCardRepository.findById(id).orElseThrow { EntityNotFoundException("TaskCard not found") }
+        taskCard.isCompleted = true  // 할일카드를 완료합니다.
+        return TaskCardResponse.toResponse(taskCard)
+    }
 }

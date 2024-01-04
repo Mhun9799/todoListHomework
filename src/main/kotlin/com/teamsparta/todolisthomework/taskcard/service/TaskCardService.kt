@@ -10,4 +10,5 @@ interface TaskCardService {
     fun getAllTaskCards(): List<TaskCardResponse>
     fun updateTaskCard(id: Long, taskCardUpdateRequest: TaskCardUpdateRequest): TaskCardResponse
     fun deleteTaskCard(id: Long)
+    fun completeTaskCard(id: Long): TaskCardResponse
 }
