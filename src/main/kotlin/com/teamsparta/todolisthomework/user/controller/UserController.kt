@@ -2,6 +2,7 @@ package com.teamsparta.todolisthomework.user.controller
 
 import com.teamsparta.todolisthomework.user.dto.UserCreateRequest
 import com.teamsparta.todolisthomework.user.dto.UserResponse
+import com.teamsparta.todolisthomework.user.dto.UserUpdateRequest
 import com.teamsparta.todolisthomework.user.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,8 +31,8 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: Long, @RequestBody userRequest: UserCreateRequest): ResponseEntity<UserResponse> {
-        val updatedUserResponse = userService.updateUser(id, userRequest)
+    fun updateUser(@PathVariable id: Long, @RequestBody userUpdateRequest: UserUpdateRequest): ResponseEntity<UserResponse> {
+        val updatedUserResponse = userService.updateUser(id, userUpdateRequest)
         return ResponseEntity(updatedUserResponse, HttpStatus.OK)
     }
 
