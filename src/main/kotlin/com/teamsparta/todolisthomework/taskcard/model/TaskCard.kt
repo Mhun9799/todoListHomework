@@ -1,5 +1,6 @@
 package com.teamsparta.todolisthomework.taskcard.model
 
+import com.teamsparta.todolisthomework.comment.model.Comment
 import com.teamsparta.todolisthomework.user.model.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -24,5 +25,8 @@ data class TaskCard(
     var authorName: String,
 
     @Column(name = "is_completed", nullable = false)
-    var isCompleted: Boolean = false
+    var isCompleted: Boolean = false,
+
+    @OneToMany(mappedBy = "taskCard")
+    var comments: List<Comment> = mutableListOf()
 )
