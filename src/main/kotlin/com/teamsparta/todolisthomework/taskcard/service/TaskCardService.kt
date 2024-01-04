@@ -12,3 +12,4 @@ interface TaskCardService {
     fun deleteTaskCard(id: Long)
     fun completeTaskCard(id: Long): TaskCardResponse
 }
+

@@ -1,5 +1,6 @@
 package com.teamsparta.todolisthomework.comment.model
 
+import com.teamsparta.todolisthomework.taskcard.model.TaskCard
 import com.teamsparta.todolisthomework.user.model.User
 import jakarta.persistence.*
 
@@ -21,7 +22,9 @@ data class Comment(
 
     @ManyToOne
     @JoinColumn(name = "user_name", referencedColumnName = "name")
-    var user: User
-) {
+    var user: User,
 
-}
+    @ManyToOne
+    @JoinColumn(name = "task_card_id")
+    var taskCard: TaskCard
+)
