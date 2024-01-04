@@ -1,7 +1,8 @@
 package com.teamsparta.todolisthomework.taskcard.service
 
-import com.teamsparta.todolisthomework.taskcard.dto.TaskCardRequest
+import com.teamsparta.todolisthomework.taskcard.dto.TaskCardCreateRequest
 import com.teamsparta.todolisthomework.taskcard.dto.TaskCardResponse
+import com.teamsparta.todolisthomework.taskcard.dto.TaskCardUpdateRequest
 import com.teamsparta.todolisthomework.taskcard.model.TaskCard
 import com.teamsparta.todolisthomework.taskcard.repository.TaskCardRepository
 import jakarta.persistence.EntityNotFoundException
@@ -14,11 +15,11 @@ class TaskCardServiceImpl(
 ) : TaskCardService {
 
     @Transactional
-    override fun createTaskCard(taskCardRequest: TaskCardRequest): TaskCardResponse {
+    override fun createTaskCard(taskCardCreateRequest: TaskCardCreateRequest): TaskCardResponse {
         val taskCard = TaskCard(
-            title = taskCardRequest.title,
-            content = taskCardRequest.content,
-            authorName = taskCardRequest.authorName
+            title = taskCardCreateRequest.title,
+            content = taskCardCreateRequest.content,
+            authorName = taskCardCreateRequest.authorName
         )
         val savedTaskCard = taskCardRepository.save(taskCard)
         return TaskCardResponse.toResponse(savedTaskCard)
@@ -42,13 +43,12 @@ class TaskCardServiceImpl(
     }
 
     @Transactional
-    override fun updateTaskCard(id: Long, taskCardRequest: TaskCardRequest): TaskCardResponse {
+    override fun updateTaskCard(id: Long, taskCardUpdateRequest: TaskCardUpdateRequest): TaskCardResponse {
         val taskCard = taskCardRepository.findById(id).orElseThrow { EntityNotFoundException("TaskCard not found") }
-        taskCard.title = taskCardRequest.title
-        taskCard.content = taskCardRequest.content
-        taskCard.authorName = taskCardRequest.authorName
-        val updatedTaskCard = taskCardRepository.save(taskCard)
-        return TaskCardResponse.toResponse(updatedTaskCard)
+        taskCard.title = taskCardUpdateRequest.title
+        taskCard.content = taskCardUpdateRequest.content
+        taskCard.authorName = taskCardUpdateRequest.authorName
+        return TaskCardResponse.toResponse(taskCard)
     }
 
     @Transactional

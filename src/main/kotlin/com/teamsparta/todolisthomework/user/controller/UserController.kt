@@ -1,6 +1,6 @@
 package com.teamsparta.todolisthomework.user.controller
 
-import com.teamsparta.todolisthomework.user.dto.UserRequest
+import com.teamsparta.todolisthomework.user.dto.UserCreateRequest
 import com.teamsparta.todolisthomework.user.dto.UserResponse
 import com.teamsparta.todolisthomework.user.service.UserService
 import org.springframework.http.HttpStatus
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 class UserController(private val userService: UserService) {
 
     @PostMapping
-    fun createUser(@RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> {
+    fun createUser(@RequestBody userRequest: UserCreateRequest): ResponseEntity<UserResponse> {
         val createdUserResponse = userService.createUser(userRequest)
         return ResponseEntity(createdUserResponse, HttpStatus.CREATED)
     }
@@ -30,7 +30,7 @@ class UserController(private val userService: UserService) {
     }
 
     @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: Long, @RequestBody userRequest: UserRequest): ResponseEntity<UserResponse> {
+    fun updateUser(@PathVariable id: Long, @RequestBody userRequest: UserCreateRequest): ResponseEntity<UserResponse> {
         val updatedUserResponse = userService.updateUser(id, userRequest)
         return ResponseEntity(updatedUserResponse, HttpStatus.OK)
     }

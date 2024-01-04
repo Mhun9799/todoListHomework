@@ -1,7 +1,8 @@
 package com.teamsparta.todolisthomework.taskcard.controller
 
-import com.teamsparta.todolisthomework.taskcard.dto.TaskCardRequest
+import com.teamsparta.todolisthomework.taskcard.dto.TaskCardCreateRequest
 import com.teamsparta.todolisthomework.taskcard.dto.TaskCardResponse
+import com.teamsparta.todolisthomework.taskcard.dto.TaskCardUpdateRequest
 import com.teamsparta.todolisthomework.taskcard.service.TaskCardService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,11 +13,10 @@ import org.springframework.web.bind.annotation.*
 class TaskCardController(private val taskCardService: TaskCardService) {
 
     @PostMapping
-    fun createTaskCard(@RequestBody taskCardRequest: TaskCardRequest): ResponseEntity<TaskCardResponse> {
-        val createdTaskCardResponse = taskCardService.createTaskCard(taskCardRequest)
+    fun createTaskCard(@RequestBody taskCardCreateRequest: TaskCardCreateRequest): ResponseEntity<TaskCardResponse> {
+        val createdTaskCardResponse = taskCardService.createTaskCard(taskCardCreateRequest)
         return ResponseEntity(createdTaskCardResponse, HttpStatus.CREATED)
     }
-
     @GetMapping("/{id}")
     fun getTaskCard(@PathVariable id: Long): ResponseEntity<TaskCardResponse> {
         val taskCardResponse = taskCardService.getTaskCard(id)
@@ -30,8 +30,8 @@ class TaskCardController(private val taskCardService: TaskCardService) {
     }
 
     @PutMapping("/{id}")
-    fun updateTaskCard(@PathVariable id: Long, @RequestBody taskCardRequest: TaskCardRequest): ResponseEntity<TaskCardResponse> {
-        val updatedTaskCardResponse = taskCardService.updateTaskCard(id, taskCardRequest)
+    fun updateTaskCard(@PathVariable id: Long, @RequestBody taskCardUpdateRequest: TaskCardUpdateRequest): ResponseEntity<TaskCardResponse> {
+        val updatedTaskCardResponse = taskCardService.updateTaskCard(id, taskCardUpdateRequest)
         return ResponseEntity(updatedTaskCardResponse, HttpStatus.OK)
     }
 

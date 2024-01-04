@@ -1,7 +1,8 @@
 package com.teamsparta.todolisthomework.user.service
 
-import com.teamsparta.todolisthomework.user.dto.UserRequest
+import com.teamsparta.todolisthomework.user.dto.UserCreateRequest
 import com.teamsparta.todolisthomework.user.dto.UserResponse
+import com.teamsparta.todolisthomework.user.dto.UserUpdateRequest
 import com.teamsparta.todolisthomework.user.model.User
 import com.teamsparta.todolisthomework.user.repository.UserRepository
 import jakarta.transaction.Transactional
@@ -13,8 +14,8 @@ class UserServiceImpl(
 ) : UserService {
 
     @Transactional
-    override fun createUser(userRequest: UserRequest): UserResponse {
-        val user = User(name = userRequest.name)
+    override fun createUser(userCreateRequest: UserCreateRequest): UserResponse {
+        val user = User(name = userCreateRequest.name)
         val savedUser = userRepository.save(user)
         return UserResponse.toResponse(savedUser)
     }
@@ -36,13 +37,12 @@ class UserServiceImpl(
     }
 
     @Transactional
-    override fun updateUser(id: Long, userRequest: UserRequest): UserResponse {
+    override fun updateUser(id: Long, userUpdateRequest: UserUpdateRequest): UserResponse {
         val user = userRepository
             .findById(id)
             .orElseThrow { RuntimeException("User not found") }
-        user.name = userRequest.name
-        val updatedUser = userRepository.save(user)
-        return UserResponse.toResponse(updatedUser)
+        user.name = userUpdateRequest.name
+        return UserResponse.toResponse(user)
     }
 
     @Transactional
